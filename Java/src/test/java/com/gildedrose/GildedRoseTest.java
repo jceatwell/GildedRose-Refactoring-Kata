@@ -87,7 +87,7 @@ class GildedRoseTest {
         IntStream.range(0, 5)
             .forEach( i -> {
                 gildedRose.updateQuality();
-                assertThat(gildedRose.items[0].quality).isGreaterThanOrEqualTo(0);
+                assertThat(gildedRose.items[0].quality).isNotNegative();
             });
     }
 
