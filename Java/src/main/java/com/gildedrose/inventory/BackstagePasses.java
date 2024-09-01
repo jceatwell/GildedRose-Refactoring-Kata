@@ -1,4 +1,6 @@
-package com.gildedrose;
+package com.gildedrose.inventory;
+
+import com.gildedrose.Item;
 
 public class BackstagePasses extends InventoryItem {
     public static final String NAME = "Backstage passes to a TAFKAL80ETC concert";
@@ -9,12 +11,12 @@ public class BackstagePasses extends InventoryItem {
 
     @Override
     protected void updateQuality() {
+        increaseQuality();
+        if (item.sellIn < 11) {
+            increaseQuality();
+        }
         if (item.sellIn < 6) {
-            increaseQuality(3);
-        } else if (item.sellIn < 11) {
-            increaseQuality(2);
-        } else {
-            increaseQuality(1);
+            increaseQuality();
         }
     }
 
@@ -22,4 +24,5 @@ public class BackstagePasses extends InventoryItem {
     protected void processExpired() {
         item.quality = 0;
     }
+
 }

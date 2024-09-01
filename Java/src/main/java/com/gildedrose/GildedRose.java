@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import com.gildedrose.inventory.InventoryItem;
+
 class GildedRose {
 
     Item[] items;

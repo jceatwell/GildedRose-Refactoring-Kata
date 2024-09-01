@@ -1,4 +1,6 @@
-package com.gildedrose;
+package com.gildedrose.inventory;
+
+import com.gildedrose.Item;
 
 public class AgedBrie extends InventoryItem {
     public static final String NAME = "Aged Brie";
@@ -9,11 +11,11 @@ public class AgedBrie extends InventoryItem {
 
     @Override
     protected void processExpired() {
-        increaseQuality(1);
+        increaseQuality();
     }
 
     @Override
     protected void updateQuality() {
-        increaseQuality(1);
+        increaseQuality();
     }
 }

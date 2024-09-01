@@ -1,4 +1,6 @@
-package com.gildedrose;
+package com.gildedrose.inventory;
+
+import com.gildedrose.*;
 
 public class InventoryItem {
 
@@ -13,6 +15,9 @@ public class InventoryItem {
         }
         if (item.name.equals(Sulfuras.NAME)) {
             return new Sulfuras(item);
+        }
+        if (item.name.equals(Conjured.NAME)) {
+            return new Conjured(item);
         }
         return new InventoryItem(item);
     }
@@ -43,15 +48,13 @@ public class InventoryItem {
 
     protected void decreaseQuality() {
         if (item.quality > 0) {
-            item.quality --;
+            item.quality--;
         }
     }
 
-    protected void increaseQuality(int increaseBy) {
-        if (item.quality + increaseBy > 50) {
-            item.quality = 50;
-        } else {
-            item.quality+=increaseBy;
+    protected void increaseQuality() {
+        if (item.quality < 50) {
+            item.quality++;
         }
     }
 

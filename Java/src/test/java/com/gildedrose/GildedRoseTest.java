@@ -14,9 +14,10 @@ class GildedRoseTest {
     // Standard Items
     private final String STANDARD_ITEM = "Standard Item";
     private final String DEXTERITY_VEST = "+5 Dexterity Vest";
+    private final String ELIXIR_MONGOOSE = "Elixir of the Mongoose";
 
     // Conjured Items
-    private final String ELIXIR_MONGOOSE = "Elixir of the Mongoose";
+    private final String CONJURED_ITEM = "Conjured";
 
     // Special Items
     private final String AGED_BRIE = "Aged Brie";
@@ -175,4 +176,24 @@ class GildedRoseTest {
         assertThat(gildedRose.items[0].sellIn).isEqualTo(expectedSellIn);
         assertThat(gildedRose.items[0].quality).isEqualTo(expectedQuality);
     }
+
+    @DisplayName("Conjured Item Validation")
+    @ParameterizedTest(name="{0}")
+    @CsvSource({
+        "'Quality decrease twice as fast', 10, 20, 9, 18",
+        "'Quality decrease by four when expired', -1, 20, -2, 16",
+        "'Quality decrease by four when expired', 0, 20, -1, 16",
+        "'Quality cannot be lower than 0', -1, 0, -2, 0",
+        "'Quality cannot be lower than 0', 0, 1, -1, 0",
+    })
+    void givenConjuredItem_whenDailyUpdate_QualityDegradesAccordingly(String testContext, int startSellIn, int startQuality,
+                                                                      int expectedSellIn, int expectedQuality) {
+        GildedRose gildedRose = createGildedRoseWithSingleItem(CONJURED_ITEM, startSellIn, startQuality);
+
+        gildedRose.updateInventory();
+
+        assertThat(gildedRose.items[0].sellIn).isEqualTo(expectedSellIn);
+        assertThat(gildedRose.items[0].quality).isEqualTo(expectedQuality);
+    }
+
 }
