@@ -12,58 +12,58 @@ public class InventoryItem {
         this.item = item;
     }
 
-    protected void processExpired(Item item) {
+    protected void processExpired() {
         if (item.name.equals(AGED_BRIE)) {
-            increaseQuality(item);
+            increaseQuality();
         } else if (item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
             item.quality = 0;
         } else if (!item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-            decreaseQuality(item);
+            decreaseQuality();
         }
     }
 
-    protected boolean isExpired(Item item) {
+    protected boolean isExpired() {
         return item.sellIn < 0;
     }
 
-    protected void updateQuality(Item item) {
+    protected void updateQuality() {
         if (item.name.equals(AGED_BRIE)) {
-            increaseQuality(item);
+            increaseQuality();
         } else if (item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
-            increaseQuality(item);
+            increaseQuality();
             if (item.sellIn < 11) {
-                increaseQuality(item);
+                increaseQuality();
             }
 
             if (item.sellIn < 6) {
-                increaseQuality(item);
+                increaseQuality();
             }
         } else if (!item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-            decreaseQuality(item);
+            decreaseQuality();
         }
     }
 
-    public void dailyUpdate(Item item) {
-        updateQuality(item);
-        updateExpiration(item);
-        if (isExpired(item)) {
-            processExpired(item);
+    public void dailyUpdate() {
+        updateQuality();
+        updateExpiration();
+        if (isExpired()) {
+            processExpired();
         }
     }
 
-    protected void decreaseQuality(Item item) {
+    protected void decreaseQuality() {
         if (item.quality > 0) {
             item.quality --;
         }
     }
 
-    protected void increaseQuality(Item item) {
+    protected void increaseQuality() {
         if (item.quality < 50) {
             item.quality = item.quality + 1;
         }
     }
 
-    protected void updateExpiration(Item item) {
+    protected void updateExpiration() {
         if (item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
             return;
         }
