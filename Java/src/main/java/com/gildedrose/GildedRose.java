@@ -11,6 +11,12 @@ class GildedRose {
         this.items = items;
     }
 
+    public void updateInventory() {
+        for (Item item : items) {
+            updateItem(item);
+        }
+    }
+
     private static void updateItem(Item item) {
         updateQuality(item);
         updateExpiration(item);
@@ -57,21 +63,15 @@ class GildedRose {
         }
     }
 
-    private static void decreaseQuality(Item item) {
-        if (item.quality > 0) {
-            item.quality = item.quality - 1;
-        }
-    }
-
     private static void increaseQuality(Item item) {
         if (item.quality < 50) {
             item.quality = item.quality + 1;
         }
     }
 
-    public void updateInventory() {
-        for (Item item : items) {
-            updateItem(item);
+    private static void decreaseQuality(Item item) {
+        if (item.quality > 0) {
+            item.quality = item.quality - 1;
         }
     }
 }
