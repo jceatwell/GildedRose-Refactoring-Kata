@@ -53,7 +53,7 @@ class GildedRoseTest {
     void givenStandardItem_whenDailyUpdate_thenQualityDegradesByOne(String itemName, int startingSellIn, int startingQuality) {
         GildedRose gildedRose = createGildedRoseWithSingleItem(itemName, startingSellIn, startingQuality);
 
-        gildedRose.updateQuality();
+        gildedRose.updateInventory();
 
         assertThat(gildedRose.items[0].sellIn).isEqualTo(startingSellIn - 1);
         assertThat(gildedRose.items[0].quality).isEqualTo(startingQuality - 1);
@@ -69,7 +69,7 @@ class GildedRoseTest {
     void givenStandardItem_whenSellByDatePassed_thenQualityDegradesByTwo(String itemName, int startingSellIn, int startingQuality) {
         GildedRose gildedRose = createGildedRoseWithSingleItem(itemName, startingSellIn, startingQuality);
 
-        gildedRose.updateQuality();
+        gildedRose.updateInventory();
 
         assertThat(gildedRose.items[0].sellIn).isEqualTo(startingSellIn - 1);
         assertThat(gildedRose.items[0].quality).isEqualTo(startingQuality - 2);
@@ -86,7 +86,7 @@ class GildedRoseTest {
         GildedRose gildedRose = createGildedRoseWithSingleItem(itemName, startingSellIn, startingQuality);
         IntStream.range(0, 5)
             .forEach( i -> {
-                gildedRose.updateQuality();
+                gildedRose.updateInventory();
                 assertThat(gildedRose.items[0].quality).isNotNegative();
             });
     }
@@ -101,7 +101,7 @@ class GildedRoseTest {
                                                                 int expectedSellIn, int expectedQuality) {
         GildedRose gildedRose = createGildedRoseWithSingleItem(AGED_BRIE, startSellIn, startQuality);
 
-        gildedRose.updateQuality();
+        gildedRose.updateInventory();
 
         assertThat(gildedRose.items[0].sellIn).isEqualTo(expectedSellIn);
         assertThat(gildedRose.items[0].quality).isEqualTo(expectedQuality);
@@ -113,7 +113,7 @@ class GildedRoseTest {
         Item secondItem = new Item(DEXTERITY_VEST, 3, 2);
         GildedRose subject = new GildedRose(new Item[] { firstItem, secondItem });
 
-        subject.updateQuality();
+        subject.updateInventory();
 
         assertThat(firstItem.sellIn).isEqualTo(4);
         assertThat(firstItem.quality).isEqualTo(3);
@@ -130,11 +130,11 @@ class GildedRoseTest {
         BACKSTAGE_PASS +", 10, 49",
         BACKSTAGE_PASS +", 10, 50",
     })
-    void givenItemWhichIncreasesInQuality_whenDailyUpdate_thenQualityCannotIncreasePast50(String temName, int startingSellIn, int startingQuality) {
-        GildedRose gildedRose = createGildedRoseWithSingleItem(AGED_BRIE, startingSellIn, startingQuality);
+    void givenItemWhichIncreasesInQuality_whenDailyUpdate_thenQualityCannotIncreasePast50(String itemName, int startingSellIn, int startingQuality) {
+        GildedRose gildedRose = createGildedRoseWithSingleItem(itemName, startingSellIn, startingQuality);
 
-        gildedRose.updateQuality();
-        gildedRose.updateQuality();
+        gildedRose.updateInventory();
+        gildedRose.updateInventory();
 
         assertThat(gildedRose.items[0].quality).isEqualTo(MAX_QUALITY);
     }
@@ -150,7 +150,7 @@ class GildedRoseTest {
                                                                                       int expectedSellIn, int expectedQuality) {
         GildedRose gildedRose = createGildedRoseWithSingleItem(SULFURAS, startSellIn, startQuality);
 
-        gildedRose.updateQuality();
+        gildedRose.updateInventory();
 
         assertThat(gildedRose.items[0].sellIn).isEqualTo(expectedSellIn);
         assertThat(gildedRose.items[0].quality).isEqualTo(expectedQuality);
@@ -170,7 +170,7 @@ class GildedRoseTest {
                                                                                        int expectedSellIn, int expectedQuality) {
         GildedRose gildedRose = createGildedRoseWithSingleItem(BACKSTAGE_PASS, startSellIn, startQuality);
 
-        gildedRose.updateQuality();
+        gildedRose.updateInventory();
 
         assertThat(gildedRose.items[0].sellIn).isEqualTo(expectedSellIn);
         assertThat(gildedRose.items[0].quality).isEqualTo(expectedQuality);

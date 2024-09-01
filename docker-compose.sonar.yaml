@@ -12,7 +12,8 @@ services:
       - SONAR_JDBC_PASSWORD=sonar
     depends_on:
       - db
-
+    volumes:
+      - ./sonar/plugins:/opt/sonarqube/extensions/plugins
   db:
     image: postgres:15
     container_name: sonarqube_db
