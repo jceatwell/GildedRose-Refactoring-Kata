@@ -1,9 +1,6 @@
 package com.gildedrose;
 
 class GildedRose {
-    public static final String BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
-    public static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
-    public static final String AGED_BRIE = "Aged Brie";
 
     Item[] items;
 
@@ -13,11 +10,12 @@ class GildedRose {
 
     public void updateInventory() {
         for (Item item : items) {
+            InventoryItem inventoryItem = new InventoryItem(item);
             updateItem(item);
         }
     }
 
-    private static void updateItem(Item item) {
+    private void updateItem(Item item) {
         updateQuality(item);
         updateExpiration(item);
         if (isExpired(item)) {
@@ -25,10 +23,10 @@ class GildedRose {
         }
     }
 
-    private static void updateQuality(Item item) {
-        if (item.name.equals(AGED_BRIE)) {
+    private void updateQuality(Item item) {
+        if (item.name.equals(InventoryItem.AGED_BRIE)) {
             increaseQuality(item);
-        } else if (item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
+        } else if (item.name.equals(InventoryItem.BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
             increaseQuality(item);
             if (item.sellIn < 11) {
                 increaseQuality(item);
@@ -37,39 +35,39 @@ class GildedRose {
             if (item.sellIn < 6) {
                 increaseQuality(item);
             }
-        } else if (!item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
+        } else if (!item.name.equals(InventoryItem.SULFURAS_HAND_OF_RAGNAROS)) {
             decreaseQuality(item);
         }
     }
 
-    private static void updateExpiration(Item item) {
-        if (item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
+    private void updateExpiration(Item item) {
+        if (item.name.equals(InventoryItem.SULFURAS_HAND_OF_RAGNAROS)) {
             return;
         }
         item.sellIn = item.sellIn - 1;
     }
 
-    private static boolean isExpired(Item item) {
+    private boolean isExpired(Item item) {
         return item.sellIn < 0;
     }
 
-    private static void processExpired(Item item) {
-        if (item.name.equals(AGED_BRIE)) {
+    private void processExpired(Item item) {
+        if (item.name.equals(InventoryItem.AGED_BRIE)) {
             increaseQuality(item);
-        } else if (item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
+        } else if (item.name.equals(InventoryItem.BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
             item.quality = 0;
-        } else if (!item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
+        } else if (!item.name.equals(InventoryItem.SULFURAS_HAND_OF_RAGNAROS)) {
             decreaseQuality(item);
         }
     }
 
-    private static void increaseQuality(Item item) {
+    private void increaseQuality(Item item) {
         if (item.quality < 50) {
             item.quality = item.quality + 1;
         }
     }
 
-    private static void decreaseQuality(Item item) {
+    private void decreaseQuality(Item item) {
         if (item.quality > 0) {
             item.quality = item.quality - 1;
         }
