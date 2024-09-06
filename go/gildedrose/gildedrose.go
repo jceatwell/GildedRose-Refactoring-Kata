@@ -5,55 +5,71 @@ type Item struct {
 	SellIn, Quality int
 }
 
-func UpdateQuality(items []*Item) {
-	for i := 0; i < len(items); i++ {
+const (
+	AgedBrie      = "Aged Brie"
+	BackStagePass = "Backstage passes to a TAFKAL80ETC concert"
+	Sulfuras      = "Sulfuras, Hand of Ragnaros"
+)
 
-		if items[i].Name != "Aged Brie" && items[i].Name != "Backstage passes to a TAFKAL80ETC concert" {
-			if items[i].Quality > 0 {
-				if items[i].Name != "Sulfuras, Hand of Ragnaros" {
-					items[i].Quality = items[i].Quality - 1
-				}
-			}
-		} else {
-			if items[i].Quality < 50 {
-				items[i].Quality = items[i].Quality + 1
-				if items[i].Name == "Backstage passes to a TAFKAL80ETC concert" {
-					if items[i].SellIn < 11 {
-						if items[i].Quality < 50 {
-							items[i].Quality = items[i].Quality + 1
-						}
-					}
-					if items[i].SellIn < 6 {
-						if items[i].Quality < 50 {
-							items[i].Quality = items[i].Quality + 1
-						}
-					}
-				}
-			}
-		}
-
-		if items[i].Name != "Sulfuras, Hand of Ragnaros" {
-			items[i].SellIn = items[i].SellIn - 1
-		}
-
-		if items[i].SellIn < 0 {
-			if items[i].Name != "Aged Brie" {
-				if items[i].Name != "Backstage passes to a TAFKAL80ETC concert" {
-					if items[i].Quality > 0 {
-						if items[i].Name != "Sulfuras, Hand of Ragnaros" {
-							items[i].Quality = items[i].Quality - 1
-						}
-					}
-				} else {
-					items[i].Quality = items[i].Quality - items[i].Quality
-				}
-			} else {
-
-				if items[i].Quality < 50 {
-					items[i].Quality = items[i].Quality + 1
-				}
-			}
+func ProcessDailyItems(items []*Item) {
+	for _, item := range items {
+		updateItemQuality(item)
+		updateExperation(item)
+		if item.SellIn < 0 {
+			processExpiredItem(item)
 		}
 	}
 
+}
+
+func updateItemQuality(item *Item) {
+
+	if item.Name == "Aged Brie" {
+		increaseQuality(item)
+	} else if item.Name == BackStagePass {
+		increaseQuality(item)
+		if item.SellIn < 11 {
+			increaseQuality(item)
+		}
+		if item.SellIn < 6 {
+			increaseQuality(item)
+		}
+
+	} else if item.Name == Sulfuras {
+		return
+	} else {
+		decreaseQuality(item)
+	}
+}
+
+func decreaseQuality(item *Item) {
+	if item.Quality > 0 {
+		item.Quality = item.Quality - 1
+	}
+}
+
+func updateExperation(item *Item) {
+	if item.Name == Sulfuras {
+		return
+	} else {
+		item.SellIn = item.SellIn - 1
+	}
+}
+
+func processExpiredItem(item *Item) {
+	if item.Name == AgedBrie {
+		increaseQuality(item)
+	} else if item.Name == BackStagePass {
+		item.Quality = 0
+	} else if item.Name == Sulfuras {
+		return
+	} else {
+		decreaseQuality(item)
+	}
+}
+
+func increaseQuality(item *Item) {
+	if item.Quality < 50 {
+		item.Quality = item.Quality + 1
+	}
 }

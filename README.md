@@ -57,6 +57,15 @@ language. Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for more details.
 
 Run the uni tests using (backtick for running from powershell terminal in vscode)
 ```
+cd go
 go test ./... `-coverprofile=coverage.out
 go tool cover `-html=coverage.out
+```
+
+Scan using 
+
+```
+cd go
+go test ./... `-coverprofile=coverage.out
+docker run --rm -e SONAR_HOST_URL="http://host.docker.internal:9000" -v "$(pwd):/usr/src" sonarsource/sonar-scanner-cli
 ```
